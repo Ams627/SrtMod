@@ -1,0 +1,58 @@
+= SrtMod Subtitle Modifier
+
+== Add or Subtract
+
+Either the add or sub command is understood:
+
+----
+srtmod add 1000
+srtmod sub 200
+----
+
+== Add or subtract a subset of the subtitles:
+
+Add 200ms to subtitle serial numbers 14 to 23
+----
+sortmod add 14,23+200 
+----
+
+== Query subtitles
+
+Print subtitle 83
+
+----
+srtmod q 83
+----
+
+----
+srtmod q 83 --time-only
+----
+
+----
+srtmod q 83,147
+----
+
+== Check subtitles
+
+Check the syntax of the file and report any errors.
+
+----
+srtmod check S02E01.srt
+----
+
+== Delete a range of subtitles
+
+Delete a range of subtitles by serial number. Serial numbers are adjusted so that there are no gaps.
+
+----
+srtmod delete 201,305 S02E01.srt
+----
+
+== Sort subtitles
+
+Subtitles should be sorted by time anyway, but occasionally you may find an out-of-order file. SrtMod can reorder them by time with the sort command.
+It will renumber the serial numbers starting from 1.
+
+----
+srtmod sort show3.srt
+----
