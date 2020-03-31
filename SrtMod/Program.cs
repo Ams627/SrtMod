@@ -88,6 +88,9 @@ namespace SrtMod
             try
             {
                 var srt = new SrtFile(args[0]);
+                srt.AddWholeFile(1000);
+                var newFilename = Path.ChangeExtension(args[0], ".srt2");
+                srt.Save(newFilename);
             }
             catch (Exception ex)
             {

@@ -74,6 +74,7 @@ namespace SrtMod
                     {
                         _state = State.Init;
                         _srtEntries.Add(currentSrtEntry);
+                        currentSrtEntry = new SrtEntry();
                     }
                     else
                     {
@@ -94,13 +95,13 @@ namespace SrtMod
 
         public void Save(string outputFilename)
         {
-            using (var writer = new StreamWriter(outputFilename, true))
+            using (var writer = new StreamWriter(outputFilename, append:false))
             {
                 foreach (var entry in _srtEntries)
                 {
-                    writer.WriteLine($"{entry}");
-                    GetStringFromMilliseconds(entry.MilliSecondsStart, entry.MilliSecondsEnd, out var str);
-                    writer.WriteLine($"{str}");
+                    writer.WriteLine($"{entry.Serial}");
+                    var timeString = GetStringFromMilliseconds(entry.MilliSecondsStart, entry.MilliSecondsEnd);
+                    writer.WriteLine($"{timeString}");
                     foreach (var textline in entry.Text)
                     {
                         writer.WriteLine($"{textline}");
@@ -110,9 +111,19 @@ namespace SrtMod
             }
         }
 
-        private void GetStringFromMilliseconds(int milliSecondsStart, int milliSecondsEnd, out string str)
+        private string GetStringFromMilliseconds(int milliSecondsStart, int milliSecondsEnd)
         {
-            throw new NotImplementedException();
+            int h1 = milliSecondsStart / 3_600_000;
+            int m1 = milliSecondsStart % 3_600_000 / 60000;
+            int s1 = milliSecondsStart % 60000 / 1000;
+            int ms1 = milliSecondsStart % 1000;
+
+            int h2 = milliSecondsEnd / 3_600_000;
+            int m2 = milliSecondsEnd % 3_600_000 / 60000;
+            int s2 = milliSecondsEnd % 60000 / 1000;
+            int ms2 = milliSecondsEnd % 1000;
+
+            return $"{h1:D2}:{m1:D2}:{s1:D2},{ms1:D3} --> {h2:D2}:{m2:D2}:{s2:D2},{ms2:D3}";
         }
 
         private void GetMilliSeconds(string line, out int start, out int end)
