@@ -93,6 +93,19 @@ namespace SrtMod
             }
         }
 
+        public void Adjust(int start, int end, int milliseconds)
+        {
+            foreach (var entry in _srtEntries)
+            {
+                if (entry.Serial >= start && entry.Serial <= end)
+                {
+                    entry.MilliSecondsStart += milliseconds;
+                    entry.MilliSecondsEnd += milliseconds;
+                }
+            }
+        }
+
+
         public void Save(string outputFilename)
         {
             using (var writer = new StreamWriter(outputFilename, append:false))
